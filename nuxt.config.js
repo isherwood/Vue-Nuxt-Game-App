@@ -47,11 +47,14 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
     '@nuxtjs/auth-next'
   ],
+
+  bootstrapVue: {
+    icons: true
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
@@ -69,14 +72,14 @@ export default {
             propertyName: 'auth_token'
           },
           logout: {
-            url: 'http://161.35.15.14/api/tokens',
+            url: '/auth/token/logout/',
             method: 'post'
           },
-          user: {
-            url: '/auth/users/me/',
-            method: 'get',
-            propertyName: false
-          }
+          // user: {
+          //   url: '/auth/users/me/',
+          //   method: 'get',
+          //   propertyName: false
+          // }
         },
         tokenRequired: true,
         tokenType: 'Token',
