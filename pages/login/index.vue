@@ -60,6 +60,9 @@ export default {
     togglePasswordVisibility() {
       this.passwordInputType = this.passwordInputType === 'password' ? 'text' : 'password';
     }
+  },
+  created() {
+    this.$store.commit('pages/setPageTitle', 'Log In')
   }
 }
 </script>

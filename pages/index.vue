@@ -9,5 +9,9 @@
 </template>
 
 <script>
-export default {}
+export default {
+  created() {
+    this.$store.commit('pages/setPageTitle', 'Games')
+  }
+}
 </script>

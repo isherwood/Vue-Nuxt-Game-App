@@ -20,7 +20,6 @@
 export default {
   data: () => ({
     siteTitle: 'NuxtVue Gaming Center',
-    pageTitle: 'Home',
     username: 'Clint',
     error: null
   }),
@@ -34,6 +33,11 @@ export default {
       } catch (e) {
         this.error = e.response.data.message
       }
+    }
+  },
+  computed: {
+    pageTitle() {
+      return this.$store.getters['pages/getPageTitle']
     }
   }
 }
