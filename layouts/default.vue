@@ -5,7 +5,7 @@
 
     <b-navbar-nav class="ml-auto">
       <b-nav-item-dropdown :text="username" right>
-        <b-dropdown-item href="#">Log Out</b-dropdown-item>
+        <b-dropdown-item href="/logout">Log Out</b-dropdown-item>
       </b-nav-item-dropdown>
     </b-navbar-nav>
   </b-navbar>
@@ -18,7 +18,7 @@
 export default {
   data: () => ({
     siteTitle: 'NuxtVue Gaming Center',
-    pageTitle: 'Log In',
+    pageTitle: 'Home',
     username: 'Clint'
   })
 }

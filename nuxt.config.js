@@ -1,4 +1,5 @@
 export default {
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -57,5 +58,34 @@ export default {
 
   router: {
     middleware: ['auth']
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: 'http://161.35.15.14/api/tokens',
+            method: 'post',
+            propertyName: 'auth_token'
+          },
+          logout: {
+            url: 'http://161.35.15.14/api/tokens',
+            method: 'post'
+          },
+          user: {
+            url: '/auth/users/me/',
+            method: 'get',
+            propertyName: false
+          }
+        },
+        tokenRequired: true,
+        tokenType: 'Token',
+        tokenName: 'Authorization'
+      }
+    },
+    token: {
+      prefix: '_token.',
+      global: true,
+    }
   }
 }
