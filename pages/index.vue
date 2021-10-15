@@ -42,18 +42,22 @@
 
       <b-table striped :items="games.data" :fields="fields" class="mt-3" id="gamesTable">
         <template #cell(nameDesc)="data">
-          <span class="lead">{{ data.item.name }}</span>
+          <NuxtLink :to="{path: '/game/' + data.item.id}" class="lead">{{ data.item.name }}</NuxtLink>
           <p>
-            {{data.item.description}}
+            {{data.item.description | textLimit(300)}}
           </p>
         </template>
 
         <template #cell(boxArt)="data">
-          <img :src="data.item.box_art_url | thumb(150)" :alt="data.item.name + ' box art'" />
+          <div class="text-right">
+            <NuxtLink :to="{path: '/game/' + data.item.id}">
+              <img :src="data.item.box_art_url | thumbImage(150)" :alt="data.item.name + ' box art'" />
+            </NuxtLink>
+          </div>
         </template>
       </b-table>
 
-      <b-pagination v-model="currentPage" :total-rows="games.total" :per-page="games.per_page" aria-controls="gamesTable"></b-pagination>
+      <b-pagination v-model="currentPage" :total-rows="games.total" :per-page="games.per_page" aria-controls="gamesTable" @input="getGames(searchTerm, currentPage)"></b-pagination>
     </b-col>
   </b-row>
 </b-container>
@@ -80,9 +84,10 @@ export default {
     searchGames() {
       this.getGames(this.searchTerm);
     },
-    async getGames(str) {
-      let url = 'http://161.35.15.14/api/games';
-      if (str) url += '?filter[search]=' + str;
+    async getGames(str, page) {
+      let url = 'http://161.35.15.14/api/games?fakeParam=0';
+      if (str) url += '&filter[search]=' + str;
+      if (page) url += '&page[number]=' + page;
 
       await this.$axios.$get(url)
         .then((res) => {
@@ -95,8 +100,17 @@ export default {
     this.getGames();
   },
   filters: {
-    thumb: function(url, size) {
+    thumbImage: function(url, size) {
       return url.replace('{width}', size).replace('{height}', size);
+    },
+    textLimit: function(str, len) {
+      if (str) {
+        if (str.length > len) {
+          str = str.substring(0, len - 4);
+          str += ' ...';
+        }
+        return str;
+      }
     }
   }
 }
