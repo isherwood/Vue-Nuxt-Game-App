@@ -1,5 +1,17 @@
 <template>
 <b-container fluid>
+  <style>
+    .art-thumb {
+      width: 400px;
+      max-width: 100%;
+    }
+    @media (min-width: 401px) and (max-width: 900px) {
+      .art-thumb {
+        max-width: 40vw;
+      }
+    }
+  </style>
+
   <b-row class="mt-3">
     <b-col>
       <b-button title="Edit this game" v-b-tooltip.hover v-if="!editMode" @click="toggleEditMode">
@@ -38,16 +50,16 @@
         <p v-text="game.description" v-if="!editMode" />
         <b-form-textarea id="descInput" v-model="game.description" placeholder="Enter a new description for this game" rows="3" max-rows="6" v-if="editMode" />
 
-        <b-form-input v-model="game.box_art_url" placeholder="Enter a URL for the box art image" v-if="editMode" class="mt-2" />
+        <!-- <b-form-input v-model="game.box_art_url" placeholder="Enter a URL for the box art image" v-if="editMode" class="mt-2" /> -->
       </div>
     </b-col>
 
     <b-col class="col-auto" v-if="game">
-      <img :src="game.box_art_url | thumbImage(300)" :alt="game.name + ' box art'" v-if="game.box_art_url" />
+      <img :src="game.box_art_url | thumbImage(400)" :alt="game.name + ' box art'" v-if="game.box_art_url" class="art-thumb" />
     </b-col>
   </b-row>
 
-  <div>
+  <div v-if="game">
     <b-modal id="deleteConfirmModal" @ok="deleteGame">
       <p class="my-4">Are you sure you want to permanently delete <strong>{{game.name}}</strong>?</p>
     </b-modal>
@@ -77,6 +89,7 @@ export default {
       let url = 'http://161.35.15.14/api' + this.$route.path;
 
       await this.$axios.$put(url, {
+          name: this.game.name,
           description: this.game.description
         })
         .then((res) => {

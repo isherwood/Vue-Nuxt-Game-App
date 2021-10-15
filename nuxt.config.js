@@ -1,4 +1,5 @@
 export default {
+  publicPath: '/game-app',
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -64,6 +65,11 @@ export default {
     middleware: ['auth']
   },
   auth: {
+    redirect: {
+      login: '/login',
+      logout: '/',
+      home: false
+    },
     strategies: {
       local: {
         endpoints: {

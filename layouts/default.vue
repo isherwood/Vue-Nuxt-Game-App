@@ -1,8 +1,9 @@
 <template>
 <div class="d-flex flex-column vh-100">
   <b-navbar type="dark" variant="dark">
-    <b-icon-controller class="position-absolute text-secondary display-4" />
-    <b-navbar-brand class="ml-5 pl-4">{{siteTitle}} : <span class="text-danger">{{pageTitle}}</span></b-navbar-brand>
+    <NuxtLink to="/" class="position-absolute"><b-icon-controller class="text-secondary display-4" /></NuxtLink>
+    <b-navbar-brand class="ml-5 pl-4">
+      <NuxtLink to="/" class="text-white text-decoration-none">{{siteTitle}}</NuxtLink> : <span class="text-danger">{{pageTitle}}</span></b-navbar-brand>
 
     <b-navbar-nav class="ml-auto">
       <b-nav-item-dropdown :text="userEmail" right>
@@ -46,6 +47,9 @@ export default {
       } catch (e) {
         this.error = e.response.data.message
       }
+    },
+    headHome() {
+      this.$router.push('/login');
     }
   },
   computed: {

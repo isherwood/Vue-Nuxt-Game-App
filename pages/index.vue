@@ -1,5 +1,11 @@
 <template>
 <b-container fluid>
+  <style>
+    .no-head thead {
+      display: none;
+    }
+  </style>
+
   <b-row class="justify-content-between mt-5">
     <b-col cols="12" md="6">
       <b-input-group>
@@ -21,8 +27,10 @@
   </b-row>
 
   <b-row>
-    <b-col>
-      <b-table striped :items="games.data" :fields="fields" class="mt-3" id="gamesTable">
+    <b-col class="pt-3">
+      <b-pagination v-model="currentPage" :total-rows="games.total" :per-page="games.per_page" aria-controls="gamesTable" @input="getGames(searchTerm, currentPage)" />
+
+      <b-table striped :items="games.data" :fields="fields" class="mt-2 no-head" id="gamesTable">
         <template #cell(nameDesc)="data">
           <NuxtLink :to="{path: '/games/' + data.item.id}" class="lead">{{ data.item.name }}</NuxtLink>
           <p>
