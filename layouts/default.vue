@@ -5,7 +5,7 @@
     <b-navbar-brand class="ml-5 pl-4">{{siteTitle}} : <span class="text-danger">{{pageTitle}}</span></b-navbar-brand>
 
     <b-navbar-nav class="ml-auto">
-      <b-nav-item-dropdown :text="username" right>
+      <b-nav-item-dropdown :text="userEmail" right>
         <b-dropdown-item @click="logout">Log Out</b-dropdown-item>
       </b-nav-item-dropdown>
     </b-navbar-nav>
@@ -16,7 +16,7 @@
   <div class="flex-fill">
     <Nuxt />
   </div>
-  f
+
   <footer>
     <b-container fluid>
       <b-row>
@@ -33,7 +33,6 @@
 export default {
   data: () => ({
     siteTitle: 'NuxtVue Gaming Center',
-    username: 'Clint',
     error: null
   }),
   methods: {
@@ -52,6 +51,9 @@ export default {
   computed: {
     pageTitle() {
       return this.$store.getters['pages/getPageTitle']
+    },
+    userEmail() {
+      return this.$store.getters['user/getEmail'];
     }
   }
 }
