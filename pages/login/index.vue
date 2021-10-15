@@ -34,8 +34,8 @@ export default {
   data: () => ({
     pageTitle: "Log In",
     loginForm: {
-      email: 'sally@example.test',
-      password: 'secret-games'
+      email: '',
+      password: ''
     },
     passwordInputType: 'password',
     error: null,
