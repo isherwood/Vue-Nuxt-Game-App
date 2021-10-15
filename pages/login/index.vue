@@ -9,7 +9,7 @@
 
         <b-input-group class="mt-2">
           <template #append>
-            <b-input-group-text @click="togglePasswordVisibility">
+            <b-input-group-text @click="togglePasswordVisibility" title="Toggle password visibility" v-b-tooltip.hover>
               <b-icon-eye-fill v-if="passwordInputType === 'password'" />
               <b-icon-eye-slash-fill v-if="passwordInputType === 'text'" />
             </b-input-group-text>

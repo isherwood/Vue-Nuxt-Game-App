@@ -15,7 +15,7 @@
     </b-col>
 
     <b-col class="text-right">
-      <button class="btn btn-dark">Add a Game</button>
+      <NuxtLink to="/games/new"><button class="btn btn-dark" title="Add a Game" v-b-tooltip.hover><b-icon-plus-circle-fill /></button></NuxtLink>
     </b-col>
   </b-row>
 
