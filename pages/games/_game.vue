@@ -5,8 +5,15 @@
       <b-button title="Edit this game" v-b-tooltip.hover v-if="!editMode" @click="toggleEditMode">
         <b-icon-pencil-fill />
       </b-button>
+      <b-button title="Delete this game" v-b-tooltip.hover v-if="!editMode" @click="showDeleteConfirm" variant="danger">
+        <b-icon-trash-fill />
+      </b-button>
+
       <b-button title="Save this game" v-b-tooltip.hover v-if="editMode" @click="saveGame" variant="success">
         <b-icon-hdd-fill />
+      </b-button>
+      <b-button title="Cancel editing" v-b-tooltip.hover v-if="editMode" @click="toggleEditMode" variant="danger">
+        <b-icon-x-circle-fill />
       </b-button>
     </b-col>
 
@@ -18,7 +25,8 @@
   <b-row class="justify-content-between mt-4">
     <b-col>
       <div v-if="game">
-        <h2 v-text="game.name" />
+        <h2 v-text="game.name" v-if="!editMode" />
+        <b-form-input v-model="game.name" placeholder="Enter a new title for this game" v-if="editMode" class="mb-3" />
 
         <div class="border-top border-bottom mb-3">
           <small>
@@ -28,15 +36,22 @@
         </div>
 
         <p v-text="game.description" v-if="!editMode" />
-
         <b-form-textarea id="descInput" v-model="game.description" placeholder="Enter a new description for this game" rows="3" max-rows="6" v-if="editMode" />
+
+        <b-form-input v-model="game.box_art_url" placeholder="Enter a URL for the box art image" v-if="editMode" class="mt-2" />
       </div>
     </b-col>
 
-    <b-col class="col-auto">
-      <img :src="game.box_art_url | thumbImage(300)" :alt="game.name + ' box art'" v-if="game" />
+    <b-col class="col-auto" v-if="game">
+      <img :src="game.box_art_url | thumbImage(300)" :alt="game.name + ' box art'" v-if="game.box_art_url" />
     </b-col>
   </b-row>
+
+  <div>
+    <b-modal id="deleteConfirmModal" @ok="deleteGame">
+      <p class="my-4">Are you sure you want to permanently delete <strong>{{game.name}}</strong>?</p>
+    </b-modal>
+  </div>
 </b-container>
 </template>
 
@@ -70,6 +85,17 @@ export default {
           this.getGame();
         });
     },
+    showDeleteConfirm() {
+      this.$root.$emit('bv::show::modal', 'deleteConfirmModal');
+    },
+    async deleteGame() {
+      let url = 'http://161.35.15.14/api' + this.$route.path;
+
+      await this.$axios.$delete(url, {})
+        .then((res) => {
+          this.$router.push('/');
+        });
+    },
     makeSaveToast(variant, message) {
       this.$bvToast.toast(message, {
         variant: variant ? 'success' : 'danger',
@@ -84,7 +110,9 @@ export default {
   },
   filters: {
     thumbImage: function(url, size) {
-      return url.replace('{width}', size).replace('{height}', size);
+      if (url) {
+        return url.replace('{width}', size).replace('{height}', size);
+      }
     }
   }
 }

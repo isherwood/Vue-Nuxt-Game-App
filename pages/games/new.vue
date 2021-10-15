@@ -2,7 +2,7 @@
 <b-container fluid>
   <b-row class="mt-3">
     <b-col>
-      <b-button title="Save this game" v-b-tooltip.hover v-if="editsMade" @click="saveGame" variant="success">
+      <b-button title="Save this game" v-b-tooltip.hover v-if="name || description" @click="saveGame" variant="success">
         <b-icon-hdd-fill />
       </b-button>
     </b-col>
@@ -14,15 +14,9 @@
 
   <b-row class="justify-content-between mt-4">
     <b-col>
-      <div v-if="game">
-
-
-        <b-form-textarea id="descInput" v-model="game.description" placeholder="Enter a new description for this game" rows="3" max-rows="6" v-if="editMode" />
-      </div>
-    </b-col>
-
-    <b-col class="col-auto">
-      <img :src="game.box_art_url | thumbImage(300)" :alt="game.name + ' box art'" v-if="game" />
+      <b-form-input id="nameInput" v-model="name" placeholder="Enter a name for this game" />
+      <b-form-textarea id="descInput" v-model="description" placeholder="Enter a description for this game" rows="3" max-rows="6" class="mt-2" />
+      <b-form-input id="boxArtInput" v-model="artUrl" placeholder="Enter a URL for this game's box art" class="mt-2 " />
     </b-col>
   </b-row>
 </b-container>
@@ -31,19 +25,25 @@
 <script>
 export default {
   data: () => ({
-    game: null,
-    editMode: false
+    name: null,
+    description: null,
+    artUrl: null
   }),
   methods: {
     async saveGame() {
-      let url = 'http://161.35.15.14/api' + this.$route.path;
+      let url = 'http://161.35.15.14/api/games';
 
-      await this.$axios.$put(url, {
-          description: this.game.description
+      await this.$axios.$post(url, {
+          name: this.name,
+          description: this.description,
+          box_art_url: this.artUrl
         })
         .then((res) => {
           this.routeToGame(res.id);
         });
+    },
+    routeToGame(id) {
+      this.$router.push('/games/' + id);
     }
   },
   created() {

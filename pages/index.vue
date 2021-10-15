@@ -15,7 +15,8 @@
     </b-col>
 
     <b-col class="text-right">
-      <NuxtLink to="/games/new"><button class="btn btn-dark" title="Add a Game" v-b-tooltip.hover><b-icon-plus-circle-fill /></button></NuxtLink>
+      <NuxtLink to="/games/new"><button class="btn btn-dark" title="Add a Game" v-b-tooltip.hover>
+          <b-icon-plus-circle-fill /></button></NuxtLink>
     </b-col>
   </b-row>
 
@@ -32,7 +33,7 @@
         <template #cell(boxArt)="data">
           <div class="text-right">
             <NuxtLink :to="{path: '/games/' + data.item.id}">
-              <img :src="data.item.box_art_url | thumbImage(150)" :alt="data.item.name + ' box art'" />
+              <img :src="data.item.box_art_url | thumbImage(150)" :alt="data.item.name + ' box art'" v-if="data.item.box_art_url" />
             </NuxtLink>
           </div>
         </template>
@@ -82,7 +83,9 @@ export default {
   },
   filters: {
     thumbImage: function(url, size) {
-      return url.replace('{width}', size).replace('{height}', size);
+      if (url) {
+        return url.replace('{width}', size).replace('{height}', size);
+      }
     },
     textLimit: function(str, len) {
       if (str) {
