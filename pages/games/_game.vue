@@ -1,17 +1,17 @@
+<style>
+  .art-thumb {
+    width: 400px;
+    max-width: 100%;
+  }
+  @media (min-width: 401px) and (max-width: 900px) {
+    .art-thumb {
+      max-width: 40vw;
+    }
+  }
+</style>
+
 <template>
 <b-container fluid>
-  <style>
-    .art-thumb {
-      width: 400px;
-      max-width: 100%;
-    }
-    @media (min-width: 401px) and (max-width: 900px) {
-      .art-thumb {
-        max-width: 40vw;
-      }
-    }
-  </style>
-
   <b-row class="mt-3">
     <b-col>
       <b-button title="Edit this game" v-b-tooltip.hover v-if="!editMode" @click="toggleEditMode">
@@ -90,7 +90,8 @@ export default {
 
       await this.$axios.$put(url, {
           name: this.game.name,
-          description: this.game.description
+          description: this.game.description,
+          // box_art_url: this.game.box_art_url
         })
         .then((res) => {
           this.toggleEditMode();

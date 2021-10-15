@@ -1,17 +1,21 @@
+<style>
+.no-head thead {
+  display: none;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+</style>
+
 <template>
 <b-container fluid>
-  <style>
-    .no-head thead {
-      display: none;
-    }
-  </style>
-
   <b-row class="justify-content-between mt-5">
     <b-col cols="12" md="6">
       <b-input-group>
         <template #append>
           <b-input-group-text>
-            <b-icon-search />
+            <b-icon-search v-if="!searchTerm" />
+            <b-icon-x-circle v-if="searchTerm" @click="clearSearch" class="cursor-pointer" aria-role="button" />
           </b-input-group-text>
         </template>
 
@@ -83,6 +87,10 @@ export default {
         .then((res) => {
           this.games = res;
         });
+    },
+    clearSearch() {
+      this.searchTerm = '';
+      this.searchGames();
     }
   },
   created() {
