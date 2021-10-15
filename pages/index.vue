@@ -21,28 +21,9 @@
 
   <b-row>
     <b-col>
-      <!-- <table class="table table-striped mt-4" id="gamesTable">
-        <thead>
-          <th>Game</th>
-          <th>Description</th>
-        </thead>
-
-        <tbody>
-          <tr v-for="game in games" :key="game.id">
-            <td>
-              <img :src="game.box_art_url | thumb(150)" :alt="game.name + ' box art'" />
-            </td>
-            <td>
-              <NuxtLink to="/:game.name">{{game.name}}</NuxtLink>
-              <p>{{game.description}}</p>
-            </td>
-          </tr>
-        </tbody>
-      </table> -->
-
       <b-table striped :items="games.data" :fields="fields" class="mt-3" id="gamesTable">
         <template #cell(nameDesc)="data">
-          <NuxtLink :to="{path: '/game/' + data.item.id}" class="lead">{{ data.item.name }}</NuxtLink>
+          <NuxtLink :to="{path: '/games/' + data.item.id}" class="lead">{{ data.item.name }}</NuxtLink>
           <p>
             {{data.item.description | textLimit(300)}}
           </p>
@@ -50,7 +31,7 @@
 
         <template #cell(boxArt)="data">
           <div class="text-right">
-            <NuxtLink :to="{path: '/game/' + data.item.id}">
+            <NuxtLink :to="{path: '/games/' + data.item.id}">
               <img :src="data.item.box_art_url | thumbImage(150)" :alt="data.item.name + ' box art'" />
             </NuxtLink>
           </div>
